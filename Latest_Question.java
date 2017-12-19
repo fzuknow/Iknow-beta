@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,6 +47,7 @@ import http.NetUtil;
 public class Latest_Question extends Fragment {
     String result;
     Question question;
+    public static String content,time,name;
     public static int quelength;
     public static String que[][]=new String[10000][6];
     // Fragment管理对象
@@ -59,6 +62,7 @@ public class Latest_Question extends Fragment {
             JSONArray ResultJson = JSONObject.parseArray(result);
             quelength=ResultJson.size();
             for (int i = 0; i < ResultJson.size(); i++) {
+
                 JSONObject results = ResultJson.getJSONObject(i);
                 String finalResult = results.getString("result");
                 question = JSON.parseObject(finalResult, Question.class);
@@ -98,6 +102,8 @@ public class Latest_Question extends Fragment {
     {
         final Map<String, Object> userInfo = new HashMap<String, Object>();
         userInfo.put("userask", "askquestion");
+        userInfo.put("questionId","");
+        userInfo.put("praiseNum","");
         final String user = "userask=askquestion";
         new Thread() {
             public void run() {
@@ -114,12 +120,14 @@ public class Latest_Question extends Fragment {
         }.start();
 
     }
+
     private ListView listview;
     private ArrayList<String> list;
     private ArrayList<Map<String,Object>> mlist;
     private SearchView searchView;
     public int clickPosition = -1;
     private TextView ReleaseDate;
+    int t=1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -134,6 +142,11 @@ public class Latest_Question extends Fragment {
         adapter = new MyAdapter();
         listview.setAdapter(adapter);
 
+        List<Question> data=new ArrayList<Question>();
+        for (int i = 0; i < quelength; i++) {
+            question.setZanFocus(false);
+            data.add(question);
+        }
         listview.setTextFilterEnabled(true);
         //为该SearchView组件设置事件监听器
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -174,12 +187,14 @@ public class Latest_Question extends Fragment {
 
         @Override
         public long getItemId(int position) {
+
             return 0;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final MyViewHolder vh;
+
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), R.layout.item, null);
                 vh = new MyViewHolder(convertView);
@@ -196,15 +211,24 @@ public class Latest_Question extends Fragment {
             vh.tv_test.setText((String)mlist.get(position).get("content"));
             vh.CommentNum.setText((String)mlist.get(position).get("commentNum"));
             vh.PraiseNum.setText((String)mlist.get(position).get("praiseNum"));
+           // vh.PraiseNum.setTag(position);
+//            if(question.getZanFocus()){
+//
+//                vh.praise.setImageResource(R.drawable.praiser);
+//            }else
+//            {
+//                vh.praise.setImageResource(R.drawable.praise);
+//            }
+
             //刷新adapter的时候，getview重新执行，此时对在点击中标记的position做处理
             if (clickPosition == position) {//当条目为刚才点击的条目时
 //                if (vh.selectorImg.isSelected()) {//当条目状态图标为选中时，说明该条目处于展开状态，此时让它隐藏，并切换状态图标的状态。
 //                    vh.selectorImg.setSelected(false);
 //                    vh.ll_hide.setVisibility(View.GONE);
 //                    Log.e("listview", "if执行");
-                    clickPosition = -1;//隐藏布局后需要把标记的position去除掉，否则，滑动listview让该条目划出屏幕范围，
-//                    // 当该条目重新进入屏幕后，会重新恢复原来的显示状态。经过打log可知每次else都执行一次 （条目第二次进入屏幕时会在getview中寻找他自己的状态，相当于重新执行一次getview）
-//                    //因为每次滑动的时候没标记得position填充会执行click
+//                    clickPosition = -1;//隐藏布局后需要把标记的position去除掉，否则，滑动listview让该条目划出屏幕范围，
+////                    // 当该条目重新进入屏幕后，会重新恢复原来的显示状态。经过打log可知每次else都执行一次 （条目第二次进入屏幕时会在getview中寻找他自己的状态，相当于重新执行一次getview）
+////                    //因为每次滑动的时候没标记得position填充会执行click
 //                } else {//当状态条目处于未选中时，说明条目处于未展开状态，此时让他展开。同时切换状态图标的状态。
 //                    vh.selectorImg.setSelected(true);
 //                    vh.ll_hide.setVisibility(View.VISIBLE);
@@ -215,32 +239,102 @@ public class Latest_Question extends Fragment {
 //                        .ofInt(vh.ll_hide, "rotationX", 0.0F, 360.0F)//
 //                        .setDuration(500)//
 //                        .start();
-                // vh.selectorImg.setSelected(true);
-                vh.praise.setOnTouchListener(new View.OnTouchListener(){
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if(event.getAction() == MotionEvent.ACTION_DOWN){
-                            //重新设置按下时的背景图片
-                            ((ImageButton)v).setImageDrawable(getResources().getDrawable(R.drawable.praiser));
-                        }else if(event.getAction() == MotionEvent.ACTION_UP){
-                            //再修改为抬起时的正常图片
-                            ((ImageButton)v).setImageDrawable(getResources().getDrawable(R.drawable.praise));
-                        }
-                        return false;
-                    }
-                });
-                if(vh.praise.isSelected()){
-
+//                 vh.selectorImg.setSelected(true);
+                if (vh.praise.isSelected()) {
+                    System.out.println("ddd");
+                    clickPosition = -1;
+                    vh.praise.setSelected(false);
+                }else
+                {
+                    vh.praise.setSelected(true);
                 }
 
             } else {//当填充的条目position不是刚才点击所标记的position时，让其隐藏，状态图标为false。
 
                 //每次滑动的时候没标记得position填充会执行此处，把状态改变。所以如果在以上的if (vh.selectorImg.isSelected()) {}中不设置clickPosition=-1；则条目再次进入屏幕后，还是会进入clickposition==position的逻辑中
                 //而之前的滑动（未标记条目的填充）时，执行此处逻辑，已经把状态图片的selected置为false。所以上面的else中的逻辑会在标记过的条目第二次进入屏幕时执行，如果之前的状态是显示，是没什么影响的，再显示一次而已，用户看不出来，但是如果是隐藏状态，就会被重新显示出来
-                vh.ll_hide.setVisibility(View.GONE);
-                //vh.selectorImg.setSelected(false);
-
-                Log.e("listview", "状态改变");
+//                vh.ll_hide.setVisibility(View.GONE);
+                vh.praise.setSelected(false);
+//
+//                Log.e("listview", "状态改变");
             }
+            vh.tv_test.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickPosition = position;
+                    Map<String,Object> k=mlist.get(position);
+                    content=k.get("content").toString();
+                    System.out.println(k);
+                    time=k.get("date").toString();
+                    name=k.get("nicheng").toString();
+                    System.out.println("pppp");
+                   // new Question_Detail();
+                    Intent intent =new Intent(getActivity(),Question_Detail.class);
+                    startActivity(intent);
+                }
+            });
+            vh.praise.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   // int po=(Integer) v.getTag();
+                    boolean flag = question.getZanFocus();
+                    clickPosition = position;//记录点击的position
+                    System.out.println("位置"+clickPosition);
+                    notifyDataSetChanged();
+                    Map<String,Object> k=mlist.get(position);
+                    int n;
+                    if (flag == true) {
+                        System.out.println("点赞不变红");
+                        vh.praise.setImageResource(R.drawable.praise);
+                        question.setZanFocus(false);
+                        System.out.println("该位置点赞数"+mlist.get(position).get("praiseNum"));
+
+                        n=Integer.parseInt(k.get("praiseNum").toString());
+                        question.setPraiseNum(n- 1);
+                        System.out.println("取消点赞"+(n-1));
+                    } else {
+                        //显示的是方块，为什么？？？？
+                        vh.praise.setImageResource(R.drawable.praiser);
+                        System.out.println("点赞变红");
+                        question.setZanFocus(true);
+                        System.out.println("该位置点赞数"+mlist.get(position));
+
+                        n=Integer.parseInt(k.get("praiseNum").toString());
+                        question.setPraiseNum(n+1);
+                        n=n+1;
+                        System.out.println("取消点赞"+(n+1));
+                    }
+//                    final Map<String, Object> userInfo = new HashMap<String, Object>();
+//
+//                    userInfo.put("questionId", mlist.get(position).get("questionid"));
+//                    userInfo.put("praiseNum", n);
+//                    final String change = "questionId"+"praiseNum";
+//                    new Thread() {
+//                        public void run() {
+//                            String response = http.HttpUtil.doPostRequest(NetUtil.PATH_USER_QUESTION, change);
+//                        }
+//                    }.start();
+                    //question.setZanFocus(!flag);
+                    AnimationTools.scale(vh.praise);
+                }
+//                }{
+//                    public boolean onTouch(View v, MotionEvent event) {
+//
+//                        if(event.getAction() == MotionEvent.ACTION_DOWN||event.getAction() == MotionEvent.ACTION_UP){
+//                            if(t%2!=0) {
+//                                //重新设置按下时的背景图片
+//                                ((ImageButton) v).setImageDrawable(getResources().getDrawable(R.drawable.praiser));
+//
+//                            }
+////                            if(t%2==0){
+////                                ((ImageButton)v).setImageDrawable(getResources().getDrawable(R.drawable.praise));
+////
+////                            }
+//                        }
+//                        t++;
+//                        return false;
+//                    }
+            });
 //            vh.hide_1.setOnClickListener(this);
 //            vh.hide_2.setOnClickListener(this);
 //            vh.hide_3.setOnClickListener(this);
@@ -321,7 +415,7 @@ public class Latest_Question extends Fragment {
             TextView title;
             TextView tv_test;
             TextView PraiseNum,CommentNum;
-            //hide_3, hide_4, hide_5;
+            TextView hide_3, hide_4, hide_5;
             ImageView selectorImg;
             LinearLayout ll_hide;
             ImageButton praise;
@@ -332,33 +426,12 @@ public class Latest_Question extends Fragment {
                 selectorImg = (ImageView) itemView.findViewById(R.id.checkbox);
 //                hide_1 = (TextView) itemView.findViewById(R.id.hide_1);
 //                hide_2 = (TextView) itemView.findViewById(R.id.hide_2);
-//                hide_3 = (TextView) itemView.findViewById(R.id.hide_3);
-//                hide_4 = (TextView) itemView.findViewById(R.id.hide_4);
-//                hide_5 = (TextView) itemView.findViewById(R.id.hide_5);
+                hide_3 = (TextView) itemView.findViewById(R.id.hide_3);
+                hide_4 = (TextView) itemView.findViewById(R.id.hide_3);
+                hide_5 = (TextView) itemView.findViewById(R.id.hide_3);
                 ll_hide = (LinearLayout) itemView.findViewById(R.id.ll_hide);
             }
         }
     }
 
 }
-//    ListView list;
-//    private String[] mName = {"这只是个例子1","这只是个例子2"};
-//    private String[] mNum = {"1", "2"};
-//    private ArrayList<Map<String, Object>> mData = new ArrayList<Map<String, Object>>();
-//
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//
-//        View view = inflater.inflate(R.layout.fragment_wealth_value__question, null);
-//        list = (ListView) view.findViewById(R.id.listView);
-//        for (int i = 0; i < mNum.length; i++) {
-//            Map<String, Object> item = new HashMap<String, Object>();
-//            item.put("name", mName[i]);
-//            item.put("num", mNum[i]);
-//            mData.add(item);
-//        }
-//        SimpleAdapter adapter = new SimpleAdapter(getActivity(), mData, android.R.layout.simple_expandable_list_item_2,
-//                new String[]{"name", "num"}, new int[]{android.R.id.text1, android.R.id.text2});
-//        list.setAdapter(adapter);
-//        return view;
-//}
