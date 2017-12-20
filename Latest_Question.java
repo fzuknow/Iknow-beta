@@ -34,6 +34,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.chen.entity.Question;
 
+import com.example.chen.fzu.Question_Detail;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,11 +72,16 @@ public class Latest_Question extends Fragment {
                 que[i][0] = question.getContent();//第几条问题的内容
                 que[i][1]=  question.getReleaseDate();
                // que[i][1]= "2017-12-16";
-                que[i][2]=String.valueOf(question.getStudentId());
+                que[i][2]=question.getStudent().getStudentName().toString();
+
                 que[i][3]=String.valueOf(question.getCommentNum());
                 que[i][4]=String.valueOf(question.getPraiseNum());
-                System.out.println("内容：" + que[i][0]);
+                que[i][5]=String.valueOf(question.getId());
+
+
+                System.out.println("内容：" + que[i][2]);
             }
+//            for(int j=;j<)
            // ReleaseDate.setText("20150515");
 //            for (int i = 0; i <quelength; i++) {
 //                list.add(que[i][0]);
@@ -125,7 +132,7 @@ public class Latest_Question extends Fragment {
     private ArrayList<String> list;
     private ArrayList<Map<String,Object>> mlist;
     private SearchView searchView;
-    public int clickPosition = -1;
+    public static int clickPosition = -1;
     private TextView ReleaseDate;
     int t=1;
     @Nullable
@@ -267,8 +274,9 @@ public class Latest_Question extends Fragment {
                     System.out.println(k);
                     time=k.get("date").toString();
                     name=k.get("nicheng").toString();
-                    System.out.println("pppp");
+                    System.out.println("问题编号"+que[position][5]);
                    // new Question_Detail();
+
                     Intent intent =new Intent(getActivity(),Question_Detail.class);
                     startActivity(intent);
                 }

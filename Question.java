@@ -1,12 +1,15 @@
-package com.fzu.edu.model;
+package com.example.chen.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by ${iknow} on ${2017/11/1}.
+ * Created by laixl on 2017/11/9.
  */
+
 public class Question implements Serializable {
+
+    private boolean zanFocus;
     private int id;
     private int studentId;
     private String releaseDate;
@@ -18,6 +21,16 @@ public class Question implements Serializable {
     private int commentNum;
     private boolean isDelete;
     private boolean isSolved;
+    private User student;
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -48,7 +61,7 @@ public class Question implements Serializable {
 
     public void setReward(boolean reward) {
         isReward = reward;
-}
+    }
 
     public int getReward() {
         return reward;
@@ -104,5 +117,13 @@ public class Question implements Serializable {
 
     public void setSolved(boolean solved) {
         isSolved = solved;
+    }
+
+    public void setZanFocus(boolean zanFocus) {
+        this.zanFocus = zanFocus;
+    }
+
+    public boolean getZanFocus() {
+        return zanFocus;
     }
 }
