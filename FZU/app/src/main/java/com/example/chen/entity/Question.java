@@ -8,6 +8,8 @@ import java.util.Date;
  */
 
 public class Question implements Serializable {
+
+    private boolean zanFocus;
     private int id;
     private int studentId;
     private String releaseDate;
@@ -19,23 +21,14 @@ public class Question implements Serializable {
     private int commentNum;
     private boolean isDelete;
     private boolean isSolved;
+    private User student;
 
-    public int getId() {
-        return id;
+    public User getStudent() {
+        return student;
     }
 
-    public void setId(int id) {
-        this.id
-
-                = id;
-    }
-
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setStudent(User student) {
+        this.student = student;
     }
 
     public String getReleaseDate() {
@@ -46,7 +39,23 @@ public class Question implements Serializable {
         this.releaseDate = releaseDate;
     }
 
-    public boolean isReward() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public boolean getIsReward() {
         return isReward;
     }
 
@@ -94,7 +103,7 @@ public class Question implements Serializable {
         this.commentNum = commentNum;
     }
 
-    public boolean isDelete() {
+    public boolean getDelete() {
         return isDelete;
     }
 
@@ -102,11 +111,19 @@ public class Question implements Serializable {
         isDelete = delete;
     }
 
-    public boolean isSolved() {
+    public boolean getSolved() {
         return isSolved;
     }
 
     public void setSolved(boolean solved) {
         isSolved = solved;
+    }
+
+    public void setZanFocus(boolean zanFocus) {
+        this.zanFocus = zanFocus;
+    }
+
+    public boolean getZanFocus() {
+        return zanFocus;
     }
 }

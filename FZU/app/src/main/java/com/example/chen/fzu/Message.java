@@ -1,32 +1,21 @@
 package com.example.chen.fzu;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Message extends Fragment {
@@ -41,9 +30,10 @@ public class Message extends Fragment {
      */
     private DisplayMetrics dm;
 
-    private Reply oneFragment;
-    private Upvote twoFragment;
 
+    private Person_Letter oneFragment;
+    private Reply twoFragment;
+    private Upvote threeFragment;
     /*
      *
      */
@@ -90,7 +80,7 @@ public class Message extends Fragment {
             super(fm);
         }
 
-        private final String[] titles = {"回复", "赞"};
+        private final String[] titles = {"私信","回复", "赞",};
 
         @Override
         public CharSequence getPageTitle(int position) {
@@ -108,14 +98,19 @@ public class Message extends Fragment {
             switch (position) {
                 case 0:
                     if (oneFragment == null) {
-                        oneFragment = new Reply();
+                        oneFragment = new Person_Letter();
                     }
                     return oneFragment;
                 case 1:
                     if (twoFragment == null) {
-                        twoFragment = new Upvote();
+                        twoFragment = new Reply();
                     }
                     return twoFragment;
+                case 2:
+                    if (threeFragment == null) {
+                        threeFragment = new Upvote();
+                    }
+                    return threeFragment;
                 default:
                     return null;
             }
@@ -135,3 +130,4 @@ public class Message extends Fragment {
         }
     }
 }
+

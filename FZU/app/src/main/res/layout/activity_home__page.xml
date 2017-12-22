@@ -15,7 +15,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:layout_alignParentBottom="true">
 
 
     <!--使用FrameLayout当做盛放Fragment对象的容器-->
@@ -25,21 +25,25 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         />
-     <TextView
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:id="@+id/Article"/>
+     <!--<TextView-->
+         <!--android:layout_width="match_parent"-->
+         <!--android:layout_height="wrap_content"-->
+         <!--android:id="@+id/Article"/>-->
     <!--中间为一条分割线-->
-    <View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"/>
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+        <!--android:background="#696969"/>-->
 
     <!--最下边为RadioGroup-->
     <RadioGroup
         android:id="@+id/radioGroup"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="60dp"
+        android:background="#EBEBEB"
+        android:paddingTop="10dp"
+        >
 
         <!--第一个RadioButton-->
         <RadioButton
@@ -63,7 +67,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/question"
+            android:drawableTop="@drawable/que"
             />
         <!--第三个RadioButton-->
         <RadioButton
@@ -74,10 +78,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/message"
-            />
-
-
+            android:drawableTop="@drawable/mess"/>
     </RadioGroup>
 </LinearLayout>
 

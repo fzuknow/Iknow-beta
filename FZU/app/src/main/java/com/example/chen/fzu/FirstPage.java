@@ -147,7 +147,7 @@ public class FirstPage extends Fragment {
             super(fm);
         }
 
-        private final String[] titles = {"实时", "热门","我的学院"};
+        private final String[] titles = {"热门", "实时","我的学院"};
 
         @Override
         public CharSequence getPageTitle(int position) {

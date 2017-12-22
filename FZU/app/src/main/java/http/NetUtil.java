@@ -18,4 +18,5 @@ public class NetUtil {
     public final static String PATH_USER_UpdatePass="/user/updatepass";
     public final static String PATH_USER_INSERTQUE="/question/quest";
     public final static String PATH_USER_Updateinfor="/user/updateInf";
+    public final static String PATH_USER_UpdatePra="/question/updatePraise";
 }

@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backmodify">
+    <include layout="@layout/titlebar_view"/>
+<GridLayout
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:rowCount="11"
-    android:columnCount="3"
-    android:background="@drawable/backmodify">
-
+    android:columnCount="3">
     <!--个人信息-->
     <ImageView
         android:id="@+id/Image"
         android:layout_height="80dp"
         android:layout_width="80dp"
         android:layout_columnSpan="3"
-       android:layout_gravity="center"
+        android:layout_gravity="center"
         android:background="@drawable/head"/>
     <TextView
         android:layout_marginLeft="20dp"
@@ -68,7 +72,7 @@
         android:text="出生年月:"
         android:textSize="18dp"/>
     <TextView
-            android:id="@+id/InputBirth"
+        android:id="@+id/InputBirth"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
@@ -197,3 +201,5 @@
         android:layout_height="40dp"
         android:background="@drawable/shape"/>
 </GridLayout>
+
+</LinearLayout>

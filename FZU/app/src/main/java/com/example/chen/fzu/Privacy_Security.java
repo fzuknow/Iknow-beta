@@ -3,9 +3,11 @@ package com.example.chen.fzu;
 import android.content.Intent;
 import android.os.*;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +44,21 @@ public class Privacy_Security extends AppCompatActivity implements View.OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy__security);
-
-        getSupportActionBar().setTitle("隐私与安全");
+        ActionBar actionbar=getSupportActionBar();
+        if(actionbar!=null){
+            actionbar.hide();
+        }
+        TextView title=(TextView)findViewById(R.id.titlebar_title_tv);
+        title.setText("隐私与安全");
+        //返回按钮监听,返回到设置页面
+        ImageButton back=(ImageButton)findViewById(R.id.backImage);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Privacy_Security.this,Setting.class);
+                startActivity(intent);
+            }
+        });
         update=(Button)findViewById(R.id.ModifyPass);
         OldPass=(TextView)findViewById(R.id.EnterOld);
         NewPass=(TextView)findViewById(R.id.EnterNew);

@@ -1,14 +1,15 @@
 package com.example.chen.fzu;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,23 +23,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.example.chen.My.Myself;
-import com.example.chen.article.ArticleDetail;
-import com.example.chen.entity.Question;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import http.HttpUtil;
-import http.NetUtil;
 
 public class Home_Page extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
@@ -152,7 +141,7 @@ public class Home_Page extends AppCompatActivity
     private List<Fragment> list;
     private FrameLayout frameLayout;
 
-
+    Drawable drawable;
 
     //初始化页面
     private void initView() {
@@ -171,15 +160,17 @@ public class Home_Page extends AppCompatActivity
         //设置图片在文字的哪个方向
         button_1.setCompoundDrawables(null, drawable_news, null, null);
 
+        Drawable wrapDrawable= DrawableCompat.wrap(drawable_news);
+        DrawableCompat.setTintList(wrapDrawable, ColorStateList.valueOf(Color.GREEN));
         //定义底部标签图片大小和位置
-        Drawable drawable_live = getResources().getDrawable(R.drawable.question);
+        Drawable drawable_live = getResources().getDrawable(R.drawable.que);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_live.setBounds(0, 0, 45, 45);
         //设置图片在文字的哪个方向
         button_2.setCompoundDrawables(null, drawable_live, null, null);
 
         //定义底部标签图片大小和位置
-        Drawable drawable_tuijian = getResources().getDrawable(R.drawable.message);
+        Drawable drawable_tuijian = getResources().getDrawable(R.drawable.mess);
         //当这个图片被绘制时，给他绑定一个矩形 ltrb规定这个矩形
         drawable_tuijian.setBounds(0, 0, 45, 45);
         //设置图片在文字的哪个方向
@@ -202,7 +193,7 @@ public class Home_Page extends AppCompatActivity
 
         //设置RadioGroup开始时设置的按钮，设置第一个按钮为默认值
         radioGroup.check(R.id.button_1);
-        TextView tt=(TextView)findViewById(R.id.Article);
+      //  TextView tt=(TextView)findViewById(R.id.Article);
 
         //设置按钮点击监听
         button_1.setOnClickListener(this);
@@ -250,6 +241,8 @@ public class Home_Page extends AppCompatActivity
         //不同按钮对应着不同的Fragment对象页面
         if(v.getId()==R.id.button_1){
             System.out.println("yyyy");
+           // button_1.setBackgroundTintList(drawable,ColorStateList.valueOf(Color.GREEN));
+            //button_1.setBackground("@drawable/praise");
             addFragment(fragment_1);
         }else if(v.getId()==R.id.button_2){
             System.out.println(",,,,");
@@ -258,7 +251,8 @@ public class Home_Page extends AppCompatActivity
         }else if(v.getId()==R.id.button_3){
             System.out.println("ffff");
             addFragment(fragment_3);
-        }else if(v.getId()==R.id.Article) {
+        }
+        //else if(v.getId()==R.id.Article) {
 //            new Thread() {
 //                public void run() {
 //                    String response = HttpUtil.doPostRequest(NetUtil.PATH_USER_LOGIN, "");
@@ -269,7 +263,7 @@ public class Home_Page extends AppCompatActivity
 //                }
 //            }.start();
 
-        }
+     //   }
 
     }
 

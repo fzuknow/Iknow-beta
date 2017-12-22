@@ -1,41 +1,34 @@
 package com.example.chen.fzu;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.Switch;
+import android.widget.TextView;
 
 public class Setting extends AppCompatActivity implements View.OnClickListener {
-    private Switch mSwitch;
-    // 默认是日间模式
-    private int theme = R.style.AppTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null){
-            theme = savedInstanceState.getInt("theme");
-            setTheme(theme);
-        }
         setContentView(R.layout.activity_setting);
-        getSupportActionBar().setTitle("设置");
+        ActionBar actionbar=getSupportActionBar();
+        if(actionbar!=null){
+            actionbar.hide();
+        }
+        TextView title=(TextView)findViewById(R.id.titlebar_title_tv);
+        title.setText("设置");
         initView();
-        mSwitch=(Switch) findViewById(R.id.On_Off3);
-        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        //返回按钮监听,返回到主页
+        ImageButton back=(ImageButton)findViewById(R.id.backImage);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    theme = (theme == R.style.AppTheme) ? R.style.AppThemeNight : R.style.AppTheme;
-                    Setting.this.recreate();
-                }
-                else
-                {
-
-                }
+            public void onClick(View v) {
+                Intent intent=new Intent(Setting.this,Home_Page.class);
+                startActivity(intent);
             }
         });
     }
@@ -48,7 +41,6 @@ public class Setting extends AppCompatActivity implements View.OnClickListener {
     private ImageButton imbutton2;
     private ImageButton imbutton3;
     private ImageButton imbutton4;
-
 
     private void initView() {
         //找到四个按钮

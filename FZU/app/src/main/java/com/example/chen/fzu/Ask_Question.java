@@ -1,5 +1,6 @@
 package com.example.chen.fzu;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -44,6 +45,7 @@ public class Ask_Question extends Fragment implements View.OnClickListener {
     private ArrayAdapter<String> arr_adapter, arr_adapter1;
     private Button button;
     TextView queContent;
+    Spinner spin;
     Latest_Question fragment;
     String result;
     private Handler mHanlder = new Handler() {
@@ -58,7 +60,8 @@ public class Ask_Question extends Fragment implements View.OnClickListener {
 
             if (finalResult.equals("成功插入问题！")) {
                 //插入成功
-
+                Intent intent=new Intent(getActivity(),Latest_Question.class);
+                startActivity(intent);
                 Toast.makeText(getActivity(), "问题插入成功", Toast.LENGTH_SHORT).show();
             } else{
 
@@ -77,6 +80,7 @@ public class Ask_Question extends Fragment implements View.OnClickListener {
         spinner1 = (Spinner) view.findViewById(R.id.spinner1);
         button = (Button) view.findViewById(R.id.button);
         queContent=(TextView)view.findViewById(R.id.edittext);
+        spin=(Spinner)view.findViewById(R.id.spinner1);
         button.setOnClickListener(this);
         //数据
         data_list = new ArrayList<String>();
@@ -117,6 +121,8 @@ public class Ask_Question extends Fragment implements View.OnClickListener {
         if (v.getId() == R.id.button) {
 
             String content=queContent.getText().toString();
+            String selectText=spin.getSelectedItem().toString();
+            System.out.println("selectText=="+selectText);
             final Map<String, Object> userInfo = new HashMap<String, Object>();
             userInfo.put("userId", Login.userId);
             final String user = "userId=" + Login.userId+"&content="+content;
@@ -138,6 +144,7 @@ public class Ask_Question extends Fragment implements View.OnClickListener {
 //            startActivity(intent);
 
             }
+
         }
 }
 

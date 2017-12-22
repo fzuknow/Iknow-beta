@@ -1,8 +1,12 @@
 package com.example.chen.fzu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,6 +20,21 @@ public class Wealth extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wealth);
         TextView InputWealth=(TextView)findViewById(R.id.wealth);
+        ActionBar actionbar=getSupportActionBar();
+        if(actionbar!=null){
+            actionbar.hide();
+        }
+        TextView title=(TextView)findViewById(R.id.titlebar_title_tv);
+        title.setText("财富值");
+        //返回按钮监听,返回到主页
+        ImageButton back=(ImageButton)findViewById(R.id.backImage);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Wealth.this,Home_Page.class);
+                startActivity(intent);
+            }
+        });
         TextView InputXp=(TextView)findViewById(R.id.xp);
         TextView Inputlv=(TextView)findViewById(R.id.lv);
         TextView InputWealthContent=(TextView)findViewById(R.id.WealthContent);
